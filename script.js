@@ -1,6 +1,6 @@
 // URL da API Django via Cloudflare Tunnel
 // URL da API Django via Cloudflare Tunnel
-const API_URL = "https://mind-plans-castle-theology.trycloudflare.com/api";
+const API_URL = "https://hawaii-feeding-expensive-discipline.trycloudflare.com/api";
 // Estado Local do Carrinho
 let cart = [];
 
