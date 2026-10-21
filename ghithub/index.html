@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lua Cheia Restaurante</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Ficheiro CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo-area">
+            <div class="logo-icon">🌕</div>
+            <div class="logo-text">
+                <h1>LUA CHEIA</h1>
+                <span>Restaurante</span>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Início</a></li>
+                <li><a href="#" class="active">Cardápio</a></li>
+                <li><a href="#">Sobre Nós</a></li>
+                <li><a href="#">Contato</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <a href="#" class="btn-pedir">Faça seu pedido</a>
+            <div class="cart-icon" id="cartToggle">
+                🛒 <span id="cartCount">0</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>LUA CHEIA</h2>
+            <p>Sabor e qualidade em cada refeição!</p>
+        </div>
+    </section>
+
+    <!-- Cardápio -->
+    <section class="menu-section">
+        <h2 class="section-title">NOSSO CARDÁPIO</h2>
+        <p class="section-subtitle">Diversos sabores para todos os gostos.</p>
+
+        <!-- Filtros de Categorias com data-category -->
+        <div class="categories">
+            <button class="category-btn active" data-category="todos">🍽️ Todos</button>
+            <button class="category-btn" data-category="lanches">🍔 Lanches</button>
+            <button class="category-btn" data-category="executivos">🍲 Pratos Executivos</button>
+            <button class="category-btn" data-category="carnes">🥩 Carnes</button>
+            <button class="category-btn" data-category="massas">🍝 Massas</button>
+            <button class="category-btn" data-category="saladas">🥗 Saladas</button>
+            <button class="category-btn" data-category="bebidas">🥤 Bebidas</button>
+            <button class="category-btn" data-category="sobremesas">🍰 Sobremesas</button>
+        </div>
+
+        <!-- Grelha de Pratos com data-category -->
+        <div class="products-grid">
+            <!-- Card 1 -->
+            <div class="product-card" data-category="lanches">
+                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=80"
+                    alt="Hambúrguer Artesanal" class="product-img">
+                <div class="product-info">
+                    <h3>Hambúrguer Artesanal</h3>
+                    <p>Pão brioche, hambúrguer 180g, queijo, alface, tomate, cebola e molho especial.</p>
+                    <div class="product-footer">
+                        <span class="product-price">R$ 24,90</span>
+                        <button class="btn-add">Adicionar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="product-card" data-category="carnes executivos">
+                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=500&q=80"
+                    alt="Picanha Grelhada" class="product-img">
+                <div class="product-info">
+                    <h3>Picanha Grelhada</h3>
+                    <p>Acompanha arroz, feijão, fritas e salada.</p>
+                    <div class="product-footer">
+                        <span class="product-price">R$ 42,90</span>
+                        <button class="btn-add">Adicionar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="product-card" data-category="massas">
+                <img src="https://images.unsplash.com/photo-1621996346565-e3d5d6281298?auto=format&fit=crop&w=500&q=80"
+                    alt="Fettuccine ao Molho de Tomate" class="product-img">
+                <div class="product-info">
+                    <h3>Fettuccine ao Molho de Tomate</h3>
+                    <p>Massa fresca, molho de tomate caseiro e parmesão.</p>
+                    <div class="product-footer">
+                        <span class="product-price">R$ 32,90</span>
+                        <button class="btn-add">Adicionar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="product-card" data-category="saladas">
+                <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=500&q=80"
+                    alt="Salada Especial da Casa" class="product-img">
+                <div class="product-info">
+                    <h3>Salada Especial da Casa</h3>
+                    <p>Mix de folhas, tomate, cebola, cenoura e molho da casa.</p>
+                    <div class="product-footer">
+                        <span class="product-price">R$ 18,90</span>
+                        <button class="btn-add">Adicionar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Painel Lateral do Carrinho (Drawer) -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h2>Seu Pedido</h2>
+            <button class="close-cart" id="closeCart">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <p class="empty-cart-msg">O seu carrinho está vazio.</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <strong id="cartTotal">R$ 0,00</strong>
+            </div>
+            <button class="btn-checkout" id="btnCheckout">Finalizar no WhatsApp</button>
+        </div>
+    </div>
+
+    <!-- Ficheiro JS -->
+    <script src="script.js"></script>
+</body>
+
+</html>
