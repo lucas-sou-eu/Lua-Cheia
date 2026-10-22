@@ -1,4 +1,4 @@
-const DEFAULT_API_URL = "https://hawaii-feeding-expensive-discipline.trycloudflare.com/api";
+const DEFAULT_API_URL = "https://frog-trade-animals-contacting.trycloudflare.com/api";
 let API_URL = localStorage.getItem('LUA_CHEIA_API_URL') || DEFAULT_API_URL;
 
 let produtos = [];
