@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lua Cheia | Cardápio & Pedidos</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Header / Navbar -->
+    <header class="navbar">
+        <div class="logo-area">
+            <div class="logo-icon">🌙</div>
+            <div class="logo-text">
+                <h1>LUA CHEIA</h1>
+                <span>Restaurante & Bar</span>
+            </div>
+        </div>
+
+        <nav class="nav-links">
+            <a href="#" class="active"><i class="fa-solid fa-utensils"></i> Cardápio</a>
+            <a href="#sobre"><i class="fa-solid fa-circle-info"></i> Sobre Nós</a>
+            <a href="#contato"><i class="fa-solid fa-location-dot"></i> Contato</a>
+        </nav>
+
+        <div class="header-actions">
+            <button class="cart-trigger" id="cartToggle" title="Abrir Carrinho">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-badge" id="cartCount">0</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="hero-tag">🌕 Experiência Gastronômica</span>
+            <h2>Sabores Únicos Sob a Lua Cheia</h2>
+            <p>Escolha seus pratos favoritos, adicione ao carrinho e faça seu pedido instantaneamente pelo WhatsApp.</p>
+            <a href="#menu" class="btn-hero"><i class="fa-solid fa-arrow-down"></i> Ver Cardápio</a>
+        </div>
+    </section>
+
+    <!-- Seção de Cardápio -->
+    <main class="menu-container" id="menu">
+        <div class="section-header">
+            <h2>NOSSO CARDÁPIO</h2>
+            <p>Selecione uma categoria ou pesquise o seu prato favorito</p>
+        </div>
+
+        <!-- Barra de Busca & Filtros -->
+        <div class="filter-bar">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" placeholder="Buscar prato ou bebida..." oninput="filtrarProdutos()">
+            </div>
+
+            <div class="categories-scroll" id="categoriesContainer">
+                <button class="cat-btn active" data-category="todos" onclick="filtrarCategoria('todos', this)">
+                    🍽️ Todos
+                </button>
+                <!-- Categorias injetadas dinamicamente via JS -->
+            </div>
+        </div>
+
+        <!-- Grid de Produtos -->
+        <div class="products-grid" id="productsGrid">
+            <div class="loading-state">
+                <i class="fa-solid fa-circle-notch fa-spin"></i>
+                <p>A carregar o cardápio do restaurante...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Drawer Lateral do Carrinho -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <aside class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <div class="cart-title">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <h3>Seu Pedido</h3>
+            </div>
+            <button class="btn-close-cart" id="closeCart" onclick="toggleCart()">&times;</button>
+        </div>
+
+        <div class="cart-items" id="cartItems">
+            <div class="empty-cart">
+                <i class="fa-solid fa-cart-flatbed-suitcases"></i>
+                <p>Seu carrinho está vazio.</p>
+                <span>Escolha alguns pratos saborosos do nosso cardápio!</span>
+            </div>
+        </div>
+
+        <div class="cart-footer">
+            <div class="cart-summary">
+                <div class="summary-line">
+                    <span>Subtotal</span>
+                    <span id="cartSubtotal">R$ 0,00</span>
+                </div>
+                <div class="summary-line total">
+                    <span>Total</span>
+                    <strong id="cartTotal">R$ 0,00</strong>
+                </div>
+            </div>
+
+            <button class="btn-checkout" id="btnCheckout">
+                <i class="fa-brands fa-whatsapp"></i> Finalizar no WhatsApp
+            </button>
+        </div>
+    </aside>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
