@@ -1,5 +1,5 @@
 // Endereço do Servidor Backend Django
-const DEFAULT_API_URL = "http://127.0.0.1:8000/api";
+const DEFAULT_API_URL = "https://frog-trade-animals-contacting.trycloudflare.com/api";
 const API_URL = localStorage.getItem('LUA_CHEIA_API_URL') || DEFAULT_API_URL;
 
 let produtosData = [];
