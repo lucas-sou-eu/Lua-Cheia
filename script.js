@@ -1,6 +1,14 @@
-// Endereço do Servidor Backend Django
-const DEFAULT_API_URL = "https://suse-apr-curtis-pieces.trycloudflare.com/api";
-const API_URL = localStorage.getItem('LUA_CHEIA_API_URL') || DEFAULT_API_URL;
+// URL padrão atual do Cloudflare Tunnel
+const DEFAULT_API_URL = "https://ports-phoenix-sacramento-subscribe.trycloudflare.com/api";
+
+// Força o uso do túnel atual se o navegador tiver guardado um antigo inválido
+let savedUrl = localStorage.getItem('LUA_CHEIA_API_URL');
+if (!savedUrl || savedUrl.includes('trycloudflare.com')) {
+    savedUrl = DEFAULT_API_URL;
+    localStorage.setItem('LUA_CHEIA_API_URL', DEFAULT_API_URL);
+}
+
+const API_URL = savedUrl;
 
 let produtosData = [];
 let categoriasData = [];
@@ -31,7 +39,7 @@ async function carregarDadosDoServidor() {
         document.getElementById('productsGrid').innerHTML = `
             <div class="loading-state">
                 <i class="fa-solid fa-triangle-exclamation" style="color: var(--danger)"></i>
-                <p>Não foi possível carregar o cardápio. Verifique a ligação com o servidor.</p>
+                <p>Não foi possível carregar o cardápio.</p>
             </div>
         `;
     }
@@ -58,7 +66,7 @@ function renderizarCategorias() {
     container.innerHTML = html;
 }
 
-// 3. Renderizar Produtos na Grelha
+// 3. Renderizar Produtos na Grelha (Clique no Cartão Inteiro para Modal)
 function renderizarProdutos(lista = produtosData) {
     const grid = document.getElementById('productsGrid');
 
@@ -88,7 +96,7 @@ function renderizarProdutos(lista = produtosData) {
         }
 
         return `
-            <div class="product-card">
+            <div class="product-card" onclick="abrirModalProduto(${p.id})" style="cursor: pointer;">
                 <div class="card-img-wrapper">
                     <img src="${imagemSrc}" class="card-img" alt="${p.nome}" onerror="this.src='https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=500&q=80'">
                     ${semEstoque ? '<span class="stock-badge out">Esgotado</span>' : ''}
@@ -100,7 +108,7 @@ function renderizarProdutos(lista = produtosData) {
                     <p class="product-desc">${p.descricao || 'Sem descrição disponível.'}</p>
                     <div class="card-bottom">
                         <span class="product-price">R$ ${parseFloat(p.preco).toFixed(2).replace('.', ',')}</span>
-                        <button class="btn-add-cart" ${semEstoque ? 'disabled' : ''} onclick="adicionarAoCarrinho(${p.id})">
+                        <button class="btn-add-cart" ${semEstoque ? 'disabled' : ''} onclick="event.stopPropagation(); adicionarAoCarrinho(${p.id})">
                             ${semEstoque ? 'Indisponível' : '<i class="fa-solid fa-plus"></i> Adicionar'}
                         </button>
                     </div>
@@ -261,7 +269,7 @@ document.getElementById('btnCheckout').addEventListener('click', () => {
     mensagem += `\n💰 *Total do Pedido:* R$ ${total.toFixed(2).replace('.', ',')}`;
     mensagem += "\n\nObrigado! Aguardo a confirmação.";
 
-    const telefoneRestaurante = "5511999999999"; // Coloque aqui o WhatsApp do restaurante
+    const telefoneRestaurante = "5511999999999"; // Substitua pelo número real do WhatsApp
     const url = `https://wa.me/${telefoneRestaurante}?text=${encodeURIComponent(mensagem)}`;
 
     window.open(url, '_blank');
@@ -274,4 +282,129 @@ function showToast(msg) {
     toast.textContent = msg;
     container.appendChild(toast);
     setTimeout(() => toast.remove(), 3000);
+}
+
+// 8. Gestão do Modal de Detalhes do Produto (Com Preço Unitário Fixo + Total no Botão)
+let produtoModalAtual = null;
+let qtdModalAtual = 1;
+
+function abrirModalProduto(produtoId) {
+    const produto = produtosData.find(p => p.id === produtoId);
+    if (!produto) return;
+
+    produtoModalAtual = produto;
+    qtdModalAtual = 1; // Reseta para 1 ao abrir
+
+    const baseUrlServer = API_URL.replace(/\/api\/?$/, "");
+    let imagemSrc = 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=500&q=80';
+
+    if (produto.imagem) {
+        const caminho = produto.imagem.startsWith('/') ? produto.imagem : `/${produto.imagem}`;
+        imagemSrc = produto.imagem.startsWith('http') ? produto.imagem : `${baseUrlServer}${caminho}`;
+    } else if (produto.imagem_url) {
+        imagemSrc = produto.imagem_url;
+    }
+
+    const qtdEstoque = produto.estoque ?? produto.quantidade_estoque ?? 0;
+
+    document.getElementById('modalProductImg').src = imagemSrc;
+    document.getElementById('modalProductCat').textContent = produto.categoria_nome || 'Especialidade';
+    document.getElementById('modalProductTitle').textContent = produto.nome;
+    document.getElementById('modalProductDesc').textContent = produto.descricao || 'Sem descrição detalhada.';
+
+    // Preço unitário FIXO no destaque do modal
+    const precoUnitario = parseFloat(produto.preco);
+    document.getElementById('modalProductPrice').textContent = `R$ ${precoUnitario.toFixed(2).replace('.', ',')}`;
+
+    document.getElementById('modalQtyVal').textContent = qtdModalAtual;
+
+    // Atualiza o texto e o preço acumulado inicial dentro do botão de Adicionar
+    atualizarBotaoAddModal();
+
+    document.getElementById('productModalOverlay').style.display = 'block';
+    const modal = document.getElementById('productModal');
+    modal.classList.add('open');
+}
+
+function fecharModalProduto() {
+    document.getElementById('productModalOverlay').style.display = 'none';
+    const modal = document.getElementById('productModal');
+    modal.classList.remove('open');
+    produtoModalAtual = null;
+}
+
+// Atualiza o botão de Adicionar com o valor total calculado (ex: Adicionar • R$ 30,00)
+function atualizarBotaoAddModal() {
+    if (!produtoModalAtual) return;
+
+    const qtdEstoque = produtoModalAtual.estoque ?? produtoModalAtual.quantidade_estoque ?? 0;
+    const semEstoque = qtdEstoque <= 0;
+    const btnAdd = document.getElementById('modalBtnAdd');
+
+    if (semEstoque) {
+        btnAdd.disabled = true;
+        btnAdd.innerHTML = 'Produto Esgotado';
+        return;
+    }
+
+    const precoUnitario = parseFloat(produtoModalAtual.preco);
+    const precoTotal = precoUnitario * qtdModalAtual;
+    const totalFormatado = `R$ ${precoTotal.toFixed(2).replace('.', ',')}`;
+
+    btnAdd.disabled = false;
+    btnAdd.innerHTML = `<i class="fa-solid fa-cart-plus"></i> Adicionar • ${totalFormatado}`;
+}
+
+function alterarQtdModal(delta) {
+    if (!produtoModalAtual) return;
+    const qtdEstoque = produtoModalAtual.estoque ?? produtoModalAtual.quantidade_estoque ?? 0;
+
+    const novaQtd = qtdModalAtual + delta;
+
+    if (novaQtd < 1) return;
+    if (novaQtd > qtdEstoque) {
+        showToast("Limite de estoque atingido!", "warning");
+        return;
+    }
+
+    qtdModalAtual = novaQtd;
+    document.getElementById('modalQtyVal').textContent = qtdModalAtual;
+
+    // Recalcula o valor acumulado no botão ao clicar em + ou -
+    atualizarBotaoAddModal();
+}
+
+function adicionarDoModalAoCarrinho() {
+    if (!produtoModalAtual) return;
+
+    const produtoId = produtoModalAtual.id;
+    const qtdEstoque = produtoModalAtual.estoque ?? produtoModalAtual.quantidade_estoque ?? 0;
+
+    if (qtdEstoque <= 0) {
+        showToast("Produto esgotado!", "warning");
+        return;
+    }
+
+    const itemExistente = carrinho.find(item => item.id === produtoId);
+
+    if (itemExistente) {
+        if (itemExistente.qtd + qtdModalAtual > qtdEstoque) {
+            showToast("Quantidade limite de estoque atingida!", "warning");
+            return;
+        }
+        itemExistente.qtd += qtdModalAtual;
+    } else {
+        carrinho.push({
+            id: produtoModalAtual.id,
+            nome: produtoModalAtual.nome,
+            preco: parseFloat(produtoModalAtual.preco),
+            imagem: produtoModalAtual.imagem || produtoModalAtual.imagem_url,
+            qtd: qtdModalAtual,
+            estoqueMax: qtdEstoque
+        });
+    }
+
+    atualizarCarrinhoUI();
+    fecharModalProduto();
+    showToast(`${qtdModalAtual}x "${produtoModalAtual.nome}" adicionado ao carrinho!`);
 }

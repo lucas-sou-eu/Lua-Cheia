@@ -19,18 +19,12 @@
     <!-- Header / Navbar -->
     <header class="navbar">
         <div class="logo-area">
-            <div class="logo-icon">🌙</div>
+            <img src="logo.png" alt="Logo Lua Cheia" class="logo-img">
             <div class="logo-text">
                 <h1>LUA CHEIA</h1>
-                <span>Restaurante & Bar</span>
+                <span>Restaurante</span>
             </div>
         </div>
-
-        <nav class="nav-links">
-            <a href="#" class="active"><i class="fa-solid fa-utensils"></i> Cardápio</a>
-            <a href="#sobre"><i class="fa-solid fa-circle-info"></i> Sobre Nós</a>
-            <a href="#contato"><i class="fa-solid fa-location-dot"></i> Contato</a>
-        </nav>
 
         <div class="header-actions">
             <button class="cart-trigger" id="cartToggle" title="Abrir Carrinho">
@@ -122,6 +116,38 @@
     <!-- Toast Notifications -->
     <div id="toastContainer" class="toast-container"></div>
 
+    <!-- Modal de Detalhes do Produto -->
+    <div class="product-modal-overlay" id="productModalOverlay" onclick="fecharModalProduto()"></div>
+    <div class="product-modal" id="productModal">
+        <button class="btn-close-modal" onclick="fecharModalProduto()">&times;</button>
+        <div class="modal-body">
+            <div class="modal-img-wrapper">
+                <img id="modalProductImg" src="" alt="Imagem do Produto" class="modal-img">
+                <span id="modalStockBadge" class="stock-badge hidden"></span>
+            </div>
+            <div class="modal-info">
+                <span id="modalProductCat" class="product-cat"></span>
+                <h2 id="modalProductTitle" class="modal-title"></h2>
+                <p id="modalProductDesc" class="modal-desc"></p>
+                <div class="modal-price-row">
+                    <span id="modalProductPrice" class="modal-price"></span>
+                </div>
+
+                <div class="modal-actions">
+                    <div class="modal-qty-selector">
+                        <button class="modal-qty-btn" onclick="alterarQtdModal(-1)"><i
+                                class="fa-solid fa-minus"></i></button>
+                        <span id="modalQtyVal" class="modal-qty-val">1</span>
+                        <button class="modal-qty-btn" onclick="alterarQtdModal(1)"><i
+                                class="fa-solid fa-plus"></i></button>
+                    </div>
+                    <button id="modalBtnAdd" class="btn-modal-add" onclick="adicionarDoModalAoCarrinho()">
+                        <i class="fa-solid fa-cart-plus"></i> Adicionar ao Carrinho
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 
