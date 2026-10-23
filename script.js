@@ -1,4 +1,4 @@
-const DEFAULT_API_URL = "https://roots-tackle-jamie-venues.trycloudflare.com/api";
+const DEFAULT_API_URL = "https://consumer-crop-antarctica-photographs.trycloudflare.com/api";
 
 let savedUrl = localStorage.getItem('LUA_CHEIA_API_URL');
 if (!savedUrl || savedUrl.includes('trycloudflare.com')) {
