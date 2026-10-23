@@ -95,6 +95,16 @@
         </div>
 
         <div class="cart-footer">
+            <!-- Campo Obrigatório para o Nome do Cliente -->
+            <div class="cart-client-field" style="margin-bottom: 15px;">
+                <label for="clienteNomeInput"
+                    style="display: block; font-size: 0.78rem; font-weight: 600; color: var(--primary-gold); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">
+                    <i class="fa-solid fa-user"></i> Seu Nome (Obrigatório) *
+                </label>
+                <input type="text" id="clienteNomeInput" placeholder="Digite seu nome completo..."
+                    style="width: 100%; padding: 10px 14px; background: var(--bg-dark); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-light); font-size: 0.85rem; outline: none; transition: border-color 0.3s;">
+            </div>
+
             <div class="cart-summary">
                 <div class="summary-line">
                     <span>Subtotal</span>
@@ -148,18 +158,20 @@
         </div>
     </div>
     <!-- MODAL DE ALERTA DE ESTOQUE / REAJUSTE -->
-<div id="estoqueModalOverlay" class="product-modal-overlay" onclick="fecharModalEstoque()"></div>
-<div id="estoqueModal" class="product-modal" style="max-width: 400px; text-align: center; padding: 25px;">
-    <button class="btn-close-modal" onclick="fecharModalEstoque()">&times;</button>
-    <div style="font-size: 3rem; color: #f59e0b; margin-bottom: 15px;">
-        <i class="fa-solid fa-triangle-exclamation"></i>
+    <div id="estoqueModalOverlay" class="product-modal-overlay" onclick="fecharModalEstoque()"></div>
+    <div id="estoqueModal" class="product-modal" style="max-width: 400px; text-align: center; padding: 25px;">
+        <button class="btn-close-modal" onclick="fecharModalEstoque()">&times;</button>
+        <div style="font-size: 3rem; color: #f59e0b; margin-bottom: 15px;">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <h3 class="modal-title" style="margin-bottom: 10px; color: #f8fafc;">Atenção ao seu Carrinho!</h3>
+        <p id="estoqueModalMensagem" class="modal-desc"
+            style="margin-bottom: 20px; color: #94a3b8; font-size: 0.9rem; line-height: 1.5;"></p>
+        <button onclick="fecharModalEstoque()"
+            style="width: 100%; background: #f59e0b; color: #000; border: none; padding: 12px; border-radius: 12px; font-weight: 700; cursor: pointer;">
+            Entendido
+        </button>
     </div>
-    <h3 class="modal-title" style="margin-bottom: 10px; color: #f8fafc;">Atenção ao seu Carrinho!</h3>
-    <p id="estoqueModalMensagem" class="modal-desc" style="margin-bottom: 20px; color: #94a3b8; font-size: 0.9rem; line-height: 1.5;"></p>
-    <button onclick="fecharModalEstoque()" style="width: 100%; background: #f59e0b; color: #000; border: none; padding: 12px; border-radius: 12px; font-weight: 700; cursor: pointer;">
-        Entendido
-    </button>
-</div>
     <script src="script.js"></script>
 </body>
 

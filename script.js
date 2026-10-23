@@ -284,6 +284,13 @@ function atualizarCarrinhoUI() {
     const cartItemsEl = document.getElementById('cartItems');
     const cartSubtotalEl = document.getElementById('cartSubtotal');
     const cartTotalEl = document.getElementById('cartTotal');
+    const clienteInputEl = document.getElementById('clienteNomeInput');
+
+    // Preenche o campo com o nome salvo anteriormente, se existir
+    if (clienteInputEl && !clienteInputEl.value) {
+        const nomeSalvo = localStorage.getItem('LUA_CHEIA_NOME_CLIENTE');
+        if (nomeSalvo) clienteInputEl.value = nomeSalvo;
+    }
 
     if (!cartCountEl || !cartItemsEl) return;
 
@@ -376,8 +383,27 @@ function finalizarPedidoWhatsApp() {
         return;
     }
 
+    // Validação do campo de Nome Obrigatório no Carrinho
+    const inputNome = document.getElementById('clienteNomeInput');
+    const nomeCliente = inputNome ? inputNome.value.trim() : '';
+
+    if (!nomeCliente) {
+        if (inputNome) {
+            inputNome.style.borderColor = 'var(--danger)';
+            inputNome.focus();
+        }
+        showToast("Por favor, digite o seu nome no carrinho antes de finalizar!", "error");
+        return;
+    }
+
+    // Se o nome foi preenchido corretamente, remove o destaque de erro e salva
+    if (inputNome) inputNome.style.borderColor = 'var(--border-color)';
+    localStorage.setItem('LUA_CHEIA_NOME_CLIENTE', nomeCliente);
+
     let total = 0;
-    let mensagem = "🌕 *NOVO PEDIDO - LUA CHEIA RESTAURANTE*\n\n";
+    let mensagem = `🌕 *NOVO PEDIDO - LUA CHEIA RESTAURANTE*\n`;
+    mensagem += `👤 *Cliente:* ${nomeCliente}\n\n`;
+
     const numeroPedido = Math.floor(1000 + Math.random() * 9000);
 
     const itensPedido = itensValidos.map((item, index) => {
@@ -398,6 +424,7 @@ function finalizarPedidoWhatsApp() {
 
     const novoPedidoPendente = {
         id: String(numeroPedido),
+        cliente: nomeCliente,
         dataHora: new Date().toLocaleString('pt-BR'),
         total: total,
         itens: itensPedido
@@ -415,7 +442,7 @@ function finalizarPedidoWhatsApp() {
     salvarCarrinhoLocal();
     atualizarCarrinhoUI();
     toggleCart();
-    showToast("Pedido enviado para o WhatsApp e registado no painel!", "success");
+    showToast("Pedido enviado para o WhatsApp e registrado no painel!", "success");
 }
 
 function showToast(msg) {
