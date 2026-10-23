@@ -314,7 +314,10 @@ body {
 .card-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    /* Mostra a imagem inteira sem cortes */
+    background-color: rgba(0, 0, 0, 0.2);
+    /* Fundo opcional para preencher espaços vazios se a proporção for diferente */
 }
 
 .stock-badge {
@@ -767,7 +770,9 @@ body {
 .modal-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    /* Mostra a imagem inteira no modal também */
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 .modal-info {
