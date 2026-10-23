@@ -5,12 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lua Cheia | Cardápio & Pedidos</title>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- CSS Personalizado -->
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -95,7 +92,7 @@
         </div>
 
         <div class="cart-footer">
-            <!-- Campo Obrigatório para o Nome do Cliente -->
+            <!-- Campo Obrigatório do Nome do Cliente -->
             <div class="cart-client-field" style="margin-bottom: 15px;">
                 <label for="clienteNomeInput"
                     style="display: block; font-size: 0.78rem; font-weight: 600; color: var(--primary-gold); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">
@@ -157,7 +154,8 @@
             </div>
         </div>
     </div>
-    <!-- MODAL DE ALERTA DE ESTOQUE / REAJUSTE -->
+
+    <!-- Modal Alerta de Estoque -->
     <div id="estoqueModalOverlay" class="product-modal-overlay" onclick="fecharModalEstoque()"></div>
     <div id="estoqueModal" class="product-modal" style="max-width: 400px; text-align: center; padding: 25px;">
         <button class="btn-close-modal" onclick="fecharModalEstoque()">&times;</button>
@@ -172,6 +170,7 @@
             Entendido
         </button>
     </div>
+
     <script src="script.js"></script>
 </body>
 

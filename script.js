@@ -15,8 +15,6 @@ let categoriaSelecionada = 'todos';
 
 document.addEventListener('DOMContentLoaded', () => {
     carregarDadosDoServidor();
-
-    // Sincroniza o estoque em background a cada 10 segundos
     setInterval(sincronizarEstoqueSilencioso, 2000);
 });
 
@@ -46,7 +44,6 @@ async function carregarDadosDoServidor() {
     }
 }
 
-// Sincronização silenciosa segura
 async function sincronizarEstoqueSilencioso() {
     try {
         const resProd = await fetch(`${API_URL}/produtos/`);
@@ -286,7 +283,6 @@ function atualizarCarrinhoUI() {
     const cartTotalEl = document.getElementById('cartTotal');
     const clienteInputEl = document.getElementById('clienteNomeInput');
 
-    // Preenche o campo com o nome salvo anteriormente, se existir
     if (clienteInputEl && !clienteInputEl.value) {
         const nomeSalvo = localStorage.getItem('LUA_CHEIA_NOME_CLIENTE');
         if (nomeSalvo) clienteInputEl.value = nomeSalvo;
@@ -370,7 +366,7 @@ if (cartToggleBtn) {
     cartToggleBtn.addEventListener('click', toggleCart);
 }
 
-function finalizarPedidoWhatsApp() {
+async function finalizarPedidoWhatsApp() {
     if (carrinho.length === 0) {
         showToast("Adicione pelo menos um item ao carrinho!", "warning");
         return;
@@ -383,7 +379,6 @@ function finalizarPedidoWhatsApp() {
         return;
     }
 
-    // Validação do campo de Nome Obrigatório no Carrinho
     const inputNome = document.getElementById('clienteNomeInput');
     const nomeCliente = inputNome ? inputNome.value.trim() : '';
 
@@ -396,27 +391,44 @@ function finalizarPedidoWhatsApp() {
         return;
     }
 
-    // Se o nome foi preenchido corretamente, remove o destaque de erro e salva
     if (inputNome) inputNome.style.borderColor = 'var(--border-color)';
     localStorage.setItem('LUA_CHEIA_NOME_CLIENTE', nomeCliente);
 
     let total = 0;
-    let mensagem = `🌕 *NOVO PEDIDO - LUA CHEIA RESTAURANTE*\n`;
-    mensagem += `👤 *Cliente:* ${nomeCliente}\n\n`;
-
     const numeroPedido = Math.floor(1000 + Math.random() * 9000);
 
-    const itensPedido = itensValidos.map((item, index) => {
+    const itensPedido = itensValidos.map((item) => {
         const sub = item.preco * item.qtd;
         total += sub;
-        mensagem += `${index + 1}. *${item.nome}* (${item.qtd}x) - R$ ${sub.toFixed(2).replace('.', ',')}\n`;
-
         return {
             produtoId: item.id,
             nome: item.nome,
             preco: item.preco,
             quantidade: item.qtd
         };
+    });
+
+    // Tenta gravar na API global
+    try {
+        await fetch(`${API_URL}/novo-pedido/`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                codigo: String(numeroPedido),
+                cliente: nomeCliente,
+                total: total,
+                itens: itensPedido
+            })
+        });
+    } catch (err) {
+        console.warn("Aviso ao enviar pedido para a API:", err);
+    }
+
+    let mensagem = `🌕 *NOVO PEDIDO - LUA CHEIA RESTAURANTE*\n`;
+    mensagem += `👤 *Cliente:* ${nomeCliente}\n\n`;
+
+    itensPedido.forEach((item, index) => {
+        mensagem += `${index + 1}. *${item.nome}* (${item.quantidade}x) - R$ ${(item.preco * item.quantidade).toFixed(2).replace('.', ',')}\n`;
     });
 
     mensagem += `\n💰 *Total do Pedido:* R$ ${total.toFixed(2).replace('.', ',')}`;
@@ -445,7 +457,7 @@ function finalizarPedidoWhatsApp() {
     showToast("Pedido enviado para o WhatsApp e registrado no painel!", "success");
 }
 
-function showToast(msg) {
+function showToast(msg, tipo = "info") {
     const container = document.getElementById('toastContainer');
     if (!container) return;
 
@@ -456,7 +468,6 @@ function showToast(msg) {
     setTimeout(() => toast.remove(), 3000);
 }
 
-// Modal de Detalhes do Produto
 let produtoModalAtual = null;
 let qtdModalAtual = 1;
 

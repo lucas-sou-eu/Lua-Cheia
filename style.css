@@ -23,7 +23,6 @@ body {
     min-height: 100vh;
 }
 
-/* Navbar */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -43,24 +42,12 @@ body {
     gap: 12px;
 }
 
-.logo-icon {
-    width: 42px;
-    height: 42px;
-    background: linear-gradient(135deg, var(--primary-gold), #fef08a);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.3rem;
-    box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
-}
-
 .logo-img {
     width: 45px;
     height: 45px;
     object-fit: cover;
     border-radius: 50%;
-    border: 2px solid var(--accent, #f59e0b);
+    border: 2px solid var(--primary-gold);
 }
 
 .logo-text h1 {
@@ -77,25 +64,6 @@ body {
     text-transform: uppercase;
 }
 
-.nav-links {
-    display: flex;
-    gap: 25px;
-}
-
-.nav-links a {
-    text-decoration: none;
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: all 0.3s;
-}
-
-.nav-links a:hover,
-.nav-links a.active {
-    color: var(--primary-gold);
-}
-
-/* Carrinho Trigger */
 .cart-trigger {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
@@ -130,7 +98,6 @@ body {
     justify-content: center;
 }
 
-/* Hero Section com Nova Imagem de Gastronomia Sofisticada */
 .hero-banner {
     position: relative;
     background: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
@@ -191,7 +158,6 @@ body {
     background: var(--primary-hover);
 }
 
-/* Menu Principal */
 .menu-container {
     padding: 50px 6%;
     max-width: 1300px;
@@ -214,7 +180,6 @@ body {
     font-size: 0.9rem;
 }
 
-/* Filtros & Busca */
 .filter-bar {
     display: flex;
     flex-direction: column;
@@ -283,7 +248,6 @@ body {
     font-weight: 700;
 }
 
-/* Grelha de Produtos Desktop (Padrao) */
 .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -311,13 +275,12 @@ body {
     height: 170px;
 }
 
+/* Imagem sem corte */
 .card-img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    /* Mostra a imagem inteira sem cortes */
     background-color: rgba(0, 0, 0, 0.2);
-    /* Fundo opcional para preencher espaços vazios se a proporção for diferente */
 }
 
 .stock-badge {
@@ -407,21 +370,14 @@ body {
     opacity: 0.5;
 }
 
-/* 📱 MODO RETRATO / MOBILE: 3 ITENS POR LINHA */
 @media (max-width: 640px) {
-    .nav-links {
-        display: none;
-    }
-
     .menu-container {
         padding: 30px 3%;
     }
 
     .products-grid {
         grid-template-columns: repeat(3, 1fr);
-        /* Força exatamente 3 colunas */
         gap: 8px;
-        /* Espaçamento compacto */
     }
 
     .product-card {
@@ -430,7 +386,6 @@ body {
 
     .card-img-wrapper {
         height: 85px;
-        /* Imagem menor e proporcional */
     }
 
     .product-details {
@@ -446,8 +401,6 @@ body {
         font-size: 0.72rem;
         line-height: 1.1;
         margin-bottom: 4px;
-
-        /* Limita a 2 linhas com reticências para manter o alinhamento perfeito */
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
@@ -456,7 +409,6 @@ body {
 
     .product-desc {
         display: none;
-        /* Oculta a descrição longa no modo 3-colunas mobile */
     }
 
     .card-bottom {
@@ -486,7 +438,6 @@ body {
     }
 }
 
-/* Carrinho Drawer */
 .cart-overlay {
     position: fixed;
     inset: 0;
@@ -665,7 +616,6 @@ body {
     opacity: 0.4;
 }
 
-/* Toast Notification */
 .toast-container {
     position: fixed;
     bottom: 20px;
@@ -699,7 +649,6 @@ body {
     margin-bottom: 12px;
 }
 
-/* Modal de Detalhes do Produto */
 .product-modal-overlay {
     position: fixed;
     inset: 0;
@@ -767,11 +716,11 @@ body {
     height: 220px;
 }
 
+/* Imagem sem corte no modal */
 .modal-img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    /* Mostra a imagem inteira no modal também */
     background-color: rgba(0, 0, 0, 0.3);
 }
 
