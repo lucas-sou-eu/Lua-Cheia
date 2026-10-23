@@ -407,7 +407,7 @@ function finalizarPedidoWhatsApp() {
     pedidosPendentes.unshift(novoPedidoPendente);
     localStorage.setItem('LUA_CHEIA_PEDIDOS_PENDENTES', JSON.stringify(pedidosPendentes));
 
-    const telefoneRestaurante = "5511999999999";
+    const telefoneRestaurante = "5585987018832";
     const url = `https://wa.me/${telefoneRestaurante}?text=${encodeURIComponent(mensagem)}`;
     window.open(url, '_blank');
 
