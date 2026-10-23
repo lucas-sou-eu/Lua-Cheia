@@ -63,7 +63,6 @@
                 <button class="cat-btn active" data-category="todos" onclick="filtrarCategoria('todos', this)">
                     🍽️ Todos
                 </button>
-                <!-- Categorias injetadas dinamicamente via JS -->
             </div>
         </div>
 
@@ -107,7 +106,7 @@
                 </div>
             </div>
 
-            <button class="btn-checkout" id="btnCheckout">
+            <button class="btn-checkout" id="btnCheckout" onclick="finalizarPedidoWhatsApp()">
                 <i class="fa-brands fa-whatsapp"></i> Finalizar no WhatsApp
             </button>
         </div>
@@ -148,6 +147,19 @@
             </div>
         </div>
     </div>
+    <!-- MODAL DE ALERTA DE ESTOQUE / REAJUSTE -->
+<div id="estoqueModalOverlay" class="product-modal-overlay" onclick="fecharModalEstoque()"></div>
+<div id="estoqueModal" class="product-modal" style="max-width: 400px; text-align: center; padding: 25px;">
+    <button class="btn-close-modal" onclick="fecharModalEstoque()">&times;</button>
+    <div style="font-size: 3rem; color: #f59e0b; margin-bottom: 15px;">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+    </div>
+    <h3 class="modal-title" style="margin-bottom: 10px; color: #f8fafc;">Atenção ao seu Carrinho!</h3>
+    <p id="estoqueModalMensagem" class="modal-desc" style="margin-bottom: 20px; color: #94a3b8; font-size: 0.9rem; line-height: 1.5;"></p>
+    <button onclick="fecharModalEstoque()" style="width: 100%; background: #f59e0b; color: #000; border: none; padding: 12px; border-radius: 12px; font-weight: 700; cursor: pointer;">
+        Entendido
+    </button>
+</div>
     <script src="script.js"></script>
 </body>
 
