@@ -1,4 +1,4 @@
-const DEFAULT_API_URL = "https://hints-instruction-volume-penetration.trycloudflare.com/api";
+const DEFAULT_API_URL = "https://backing-modular-annie-pushed.trycloudflare.com/api";
 
 let savedUrl = localStorage.getItem('LUA_CHEIA_API_URL');
 if (!savedUrl || savedUrl.includes('trycloudflare.com')) {
